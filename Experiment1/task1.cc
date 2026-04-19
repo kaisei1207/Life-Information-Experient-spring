@@ -83,7 +83,7 @@ int main() {
         // 結果表示
         cout << "=== " << file << " オッズスコア log(p/q) ===\n";
 
-        // ===== 対数オッズスコアS(x)の計算 =====
+        // ===== PWM（Position Weight Matrix）の計算 =====
         for (int b = 0; b < 4; b++) {
             cout << base[b] << " "; // 塩基名
 
@@ -96,10 +96,10 @@ int main() {
                 // p = 観測確率（その位置での塩基bの頻度）
                 double p = (double)count[b][i] / total;
 
-                // q = バックグラウンド出現確率
+                // q = バックグラウンド確率
                 double q = bg[b];
 
-                // 対数オッズスコア log(p/q)
+                // logオッズスコア log(p/q)
                 double score = log(p / q);
 
                 // 出力
