@@ -96,7 +96,7 @@ int main() {
                 // p = 観測確率（その位置での塩基bの頻度）
                 double p = (double)count[b][i] / total;
 
-                // q = バックグラウンド確率
+                // q = バックグラウンド出現確率
                 double q = bg[b];
 
                 // logオッズスコア log(p/q)
