@@ -83,7 +83,7 @@ int main() {
         // 結果表示
         cout << "=== " << file << " オッズスコア log(p/q) ===\n";
 
-        // ===== PWM（Position Weight Matrix）の計算 =====
+        // ===== 対数オッズスコアS_i(x)の計算 =====
         for (int b = 0; b < 4; b++) {
             cout << base[b] << " "; // 塩基名
 
