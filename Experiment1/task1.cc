@@ -83,7 +83,7 @@ int main() {
         // 結果表示
         cout << "=== " << file << " オッズスコア log(p/q) ===\n";
 
-        // ===== 対数オッズスコアS_i(x)の計算 =====
+        // ===== 対数オッズスコアS(x)の計算 =====
         for (int b = 0; b < 4; b++) {
             cout << base[b] << " "; // 塩基名
 
@@ -99,7 +99,7 @@ int main() {
                 // q = バックグラウンド出現確率
                 double q = bg[b];
 
-                // logオッズスコア log(p/q)
+                // 対数オッズスコア log(p/q)
                 double score = log(p / q);
 
                 // 出力
