@@ -171,7 +171,7 @@ int main() {
 
         // ===== ランダムスコア分布 =====
         vector<double> random_scores; // スコア分布
-        int num_random = 5000; // ランダム配列数
+        int num_random = 10000; // ランダム配列数
 
         for (int n = 0; n < num_random; n++) {
 
@@ -213,7 +213,6 @@ int main() {
             string &sequence = promoters[p_idx]; // 対象配列
 
             cout << "\n" << names[p_idx] << endl;
-            cout << "length = " << sequence.size() << endl;
 
             if (sequence.size() < (size_t)L) {
                 cout << "sequence too short\n";
