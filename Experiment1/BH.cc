@@ -141,7 +141,7 @@ int main() {
 
         // ===== ランダム分布 =====
         vector<double> random_scores;
-        int num_random = 5000;
+        int num_random = 10000;
 
         for (int n = 0; n < num_random; n++) {
             string rand_seq = generate_random_sequence(promoters[0].size(), bg, gen);
