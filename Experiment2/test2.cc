@@ -18,13 +18,13 @@ using namespace std;
 // データ読み込み関数
 // ============================
 // ファイルから
-// ・特徴量の名前
+// ・タンパク質名
 // ・特徴量データ（dataset）
 // ・ラベル（可溶性）
 // を読み込む
 void LoadSolubilityFile(
     const string& filename,                 // ファイル名
-    vector<string>& feature_name,           // 特徴量の名前
+    vector<string>& feature_name,           // タンパク質名前
     vector<vector<double>>& dataset,        // 特徴量データ
     vector<int>& labels)                    // 可溶性ラベル（0 or 1）
 {
@@ -47,7 +47,7 @@ void LoadSolubilityFile(
         ifs >> feature_name[i];
     }
 
-    // 最後の列（labelなどの名前）を読み飛ばす
+    // 最後の列を読み飛ばす
     ifs >> tmp;
 
     // ===== データ読み込み =====
@@ -78,18 +78,15 @@ void LoadSolubilityFile(
 // ============================
 // データ分割関数
 // ============================
-// datasetを
-// ・訓練データ
-// ・テストデータ
-// にランダムに分ける
+// datasetをトレーニングデータとテストデータにランダムに分ける
 void DivideDataset(
-    const vector<vector<double>>& dataset,  // 全データ
-    const vector<int>& labels,              // 全ラベル
-    vector<vector<double>>& training_dataset, // 訓練データ
-    vector<int>& training_labels,
-    vector<vector<double>>& test_dataset,     // テストデータ
-    vector<int>& test_labels,
-    double test_ratio)                      // テストデータの割合
+    const vector<vector<double>>& dataset,       // dataset : 特徴量データ（全データ）
+    const vector<int>& labels,                   // labels : 可溶性ラベル（全データ）
+    vector<vector<double>>& training_dataset,    // training_dataset : トレーニング
+    vector<int>& training_labels,                // training_labels : トレーニングラベル（出力）
+    vector<vector<double>>& test_dataset,        // test_dataset : テスト用データ（出力）
+    vector<int>& test_labels,                    // test_labels : テスト用ラベル（出力）
+    double test_ratio)                           // test_ratio : テストデータの割合（例：0.2 → 20%）
 {
     int N = dataset.size(); // データ数
 
@@ -115,7 +112,7 @@ void DivideDataset(
         test_labels.push_back(labels[idx]);
     }
 
-    // ===== 訓練データ =====
+    // ===== トレーニングデータ =====
     for (int i = test_size; i < N; i++) {
         int idx = indices[i];
         training_dataset.push_back(dataset[idx]);
@@ -128,8 +125,8 @@ void DivideDataset(
 // ============================
 // すべて「1」と予測する単純モデルの性能を計算
 void Evaluation(
-    const vector<vector<double>>& X, // 特徴量（今回は未使用）
-    const vector<int>& y)            // 正解ラベル
+    const vector<vector<double>>& X, // 特徴量
+    const vector<int>& y)            // 可溶性ラベル
 {
     // 混同行列の要素
     int TP = 0, FP = 0, FN = 0, TN = 0;
