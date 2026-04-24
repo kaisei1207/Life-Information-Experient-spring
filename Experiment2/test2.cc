@@ -20,13 +20,13 @@ using namespace std;
 // ファイルから
 // ・特徴量の名前
 // ・特徴量データ（dataset）
-// ・ラベル（正解）
+// ・ラベル（可溶性）
 // を読み込む
 void LoadSolubilityFile(
     const string& filename,                 // ファイル名
     vector<string>& feature_name,           // 特徴量の名前
     vector<vector<double>>& dataset,        // 特徴量データ
-    vector<int>& labels)                    // 正解ラベル（0 or 1）
+    vector<int>& labels)                    // 可溶性ラベル（0 or 1）
 {
     ifstream ifs(filename); // ファイルを開く
 
