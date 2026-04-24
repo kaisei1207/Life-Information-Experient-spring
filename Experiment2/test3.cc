@@ -7,31 +7,28 @@
 #include <random>     
 using namespace std;
 
-
 // ===== 定数 =====
-#define NUM_FEATURES 53   // 特徴量の数（1データの次元）
+#define NUM_FEATURES 53   // 特徴量の数
 #define NUM_SEQS 10000    // データ数
-
 
 // ============================
 // 決定木ノード（1回の分岐）
 // ============================
 struct TreeNode{
     int feature_id;        // どの特徴量で分岐するか（列番号）
-    double threshold;      // 分割する境界値
+    double threshold;      // 分割する閾値
     int left_class_id;     // 左側（<=）の予測ラベル
     int right_class_id;    // 右側（>）の予測ラベル
 };
-
 
 // ============================
 // データ読み込み
 // ============================
 void LoadSolubilityFile(
     const string& filename,                // ファイル名
-    vector<string>& feature_name,          // 特徴量名
+    vector<string>& feature_name,          // タンパク質名
     vector<vector<double>>& dataset,       // 特徴量データ
-    vector<int>& labels)                   // 正解ラベル
+    vector<int>& labels)                   // 可溶性ラベル
 {
     ifstream ifs(filename);               
     if (!ifs) {                            
@@ -62,7 +59,7 @@ void LoadSolubilityFile(
             ifs >> dataset[row][j];
         }
 
-        ifs >> labels[row]; // ラベル（0 or 1）
+        ifs >> labels[row]; // 可溶性ラベル（0 or 1）
 
         row++;
     }
@@ -103,7 +100,7 @@ void DivideDataset(
         test_labels.push_back(labels[idx]);   // 対応するラベルもテスト用へ追加
     }
 
-    // ===== 学習データ作成 =====
+    // ===== トレーニングデータ作成 =====
     for (int i = test_size; i < N; i++) {
         int idx = indices[i]; // 残りのデータ（テストに使わなかった部分）
         training_dataset.push_back(dataset[idx]); // 学習用特徴量として追加
@@ -130,7 +127,7 @@ double Gini(int count1, int total) {
 // total  : データ総数
 // → 「このグループは0と1どちらが多いか」で予測ラベルを決める
 int Majority(int count1, int total) {
-    int count0 = total - count1; // ラベル0の数（全体 - ラベル1）
+    int count0 = total - count1; // ラベル0の数
     // ラベル1の方が多い（または同数）の場合
     if (count1 >= count0) {
         return 1; // 1を予測
@@ -140,10 +137,10 @@ int Majority(int count1, int total) {
 }
 
 // ============================
-// 決定木学習（最重要）
+// 決定木学習
 // ============================
 // X : 特徴量データ（行＝データ、列＝特徴量）
-// y : 正解ラベル
+// y : 可溶性ラベル
 // node : 学習結果（どの特徴量・どの閾値かを保存）
 void TrainDecisionNode(
     const vector<vector<double>>& X,
